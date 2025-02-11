@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Projekti 1",
+    "description": "Kuvaus projektista 1.",
+    "image": "kuvat/projekti1.jpg",
+    "link": "projekti1.html"
+  },
+  {
+    "title": "Projekti 2",
+    "description": "Kuvaus projektista 2.",
+    "image": "kuvat/projekti2.jpg",
+    "link": "projekti2.html"
+  }
+]
