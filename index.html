@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolioni</title>
+  <style>
+    /* Perus tyylit */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    header, footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1em;
+    }
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1em;
+    }
+    .portfolio-item {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin: 1em;
+      padding: 1em;
+      flex: 1 1 300px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    }
+    .portfolio-item img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .portfolio-item h2 {
+      font-size: 1.2em;
+      margin: 0.5em 0;
+    }
+    .portfolio-item p {
+      font-size: 1em;
+    }
+    .portfolio-item a {
+      color: #007BFF;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .portfolio-item a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Portfolioni</h1>
+  </header>
+  
+  <!-- Gallerian kontaineri, johon portfolio-kohteet lisätään dynaamisesti -->
+  <main id="portfolio-gallery"></main>
+  
+  <footer>
+    <p>&copy; 2025 Portfolioni</p>
+  </footer>
+  
+  <script>
+    // Esimerkissä haetaan portfolion tiedot portfolio.json-tiedostosta.
+    // Voit halutessasi muuttaa tiedoston nimeä tai siirtyä käyttämään CSV:tä.
+    fetch('portfolio.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Verkkovirhe: ' + response.status);
+        }
+        return response.json();
+      })
+      .then(data => {
+        const gallery = document.getElementById('portfolio-gallery');
+        data.forEach(item => {
+          // Luodaan div jokaiselle portfolion kohteelle
+          const itemDiv = document.createElement('div');
+          itemDiv.classList.add('portfolio-item');
+          
+          // Lisätään kuva, jos sellainen on määritelty
+          if (item.image) {
+            const img = document.createElement('img');
+            img.src = item.image;
+            img.alt = item.title || 'Portfolio kuva';
+            itemDiv.appendChild(img);
+          }
+          
+          // Lisätään otsikko
+          if (item.title) {
+            const title = document.createElement('h2');
+            title.textContent = item.title;
+            itemDiv.appendChild(title);
+          }
+          
+          // Lisätään kuvaus
+          if (item.description) {
+            const description = document.createElement('p');
+            description.textContent = item.description;
+            itemDiv.appendChild(description);
+          }
+          
+          // Lisätään linkki lisätietojen sivulle, jos saatavilla
+          if (item.link) {
+            const link = document.createElement('a');
+            link.href = item.link;
+            link.textContent = 'Lue lisää';
+            link.target = '_blank';
+            itemDiv.appendChild(link);
+          }
+          
+          // Lisätään portfolio-kohde galleriaan
+          gallery.appendChild(itemDiv);
+        });
+      })
+      .catch(error => {
+        console.error('Virhe portfolion tietojen latauksessa:', error);
+      });
+  </script>
+</body>
+</html>
